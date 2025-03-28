@@ -21,8 +21,6 @@ app.post("/signup",async (req, res) => {
 
     //Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
-
     //creating a new instance of the user model
     const user = new User({
         firstName, 
@@ -35,6 +33,23 @@ app.post("/signup",async (req, res) => {
     } catch(err){
     res.status(400).send("ERROR: " + err.message);
 }
+});
+app.post("/login", async(req, res) => {
+    try{
+        const{emailId, password} =req.body;
+        const user = await User.findOne({emailId: emailId});
+        if(!user){
+            return res.status(404).send("User not found.");
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if(!isPasswordValid){
+            return res.status(400).send("Incorrect password.");
+        }else{
+            res.send("Logged in successfully!");
+        }
+    }catch(err){
+        res.status(400).send("ERROR: " + err.message);
+    }
 });
 app.get("/user", async (req, res) => {
     const userEmail = req.body.emailId;
