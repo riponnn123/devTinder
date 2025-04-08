@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -62,4 +63,12 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-module.exports = mongoose.model("User",userSchema);
+userSchema.methods.getJWT = async function(){
+    const user = this; //this doesn't use arrow function. It is a special key-word
+
+    const token = await jwt.sign({_id: user._id},"Ripon@123",{
+        expiresIn: "7d"});
+return token;
+};
+
+module.exports = mongoose.model("User", userSchema);

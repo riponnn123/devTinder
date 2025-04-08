@@ -1,10 +1,10 @@
 const validator = require('validator');
 
 const validateSignUpData = (req) => {
-  const { firstName, lastName, emailId, password } = req.body;
+  const { firstName, emailId, password } = req.body;
 
   // Validate firstName and lastName
-  if (!firstName || !lastName || typeof firstName !== "string" || typeof lastName !== "string") {
+  if (!firstName || typeof firstName !== "string" || typeof lastName !== "string") {
     return "Invalid firstName or lastName";
   }
   else if (!validator.isEmail(emailId)) {
