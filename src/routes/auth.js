@@ -42,7 +42,9 @@ authRouter.post("/login", async(req, res) => {
           const token =await user.getJWT();
           console.log(token);
           //set the cookie
-          res.cookie("token", token);
+          res.cookie("token", token, {
+            expires: new Date(Date.now() + 8* 3600000),
+          });
           
           res.send("Logged in successfully!");
           return;
@@ -52,6 +54,13 @@ authRouter.post("/login", async(req, res) => {
   }catch(err){
       res.status(400).send("ERROR: " + err.message);
   }
+});
+
+authRouter.post("/logout",async(req,res) => {
+  res.cookie("token",null, {
+    expires: new Date(Date.now()),
+  });
+  res.send("Logout succesfull!!!");
 });
 
 module.exports = authRouter;
