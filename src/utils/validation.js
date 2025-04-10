@@ -34,4 +34,6 @@ const isEditAllowed = Object.keys(req.body).every((field)=>
 return isEditAllowed;
 };
 
-module.exports = {validateSignUpData,};
+module.exports = {validateSignUpData,
+                  validateEditProfileData,
+};
