@@ -63,11 +63,14 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+userSchema.index({firstName: 1}); //Compound Indexes
+
 userSchema.methods.getJWT = async function(){
     const user = this; //this doesn't use arrow function. It is a special key-word
 
     const token = await jwt.sign({_id: user._id},"Ripon@123",{
-        expiresIn: "7d"});
+        expiresIn: "7d"}
+    );
 return token;
 };
 
